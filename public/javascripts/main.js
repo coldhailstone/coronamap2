@@ -28,6 +28,10 @@ const getClickHandler = i => () => {
     infowindow.getMap() ? infowindow.close() : infowindow.open(map, markerList[i]);
 };
 
+const getClickMap = i => () => {
+    infowindowList[i].close();
+};
+
 for (const i in data) {
     const target = data[i];
     const latlng = new naver.maps.LatLng(target.lat, target.lng);
@@ -59,4 +63,5 @@ for (const i in data) {
 
 for (let i = 0, ii = markerList.length; i < ii; i++) {
     naver.maps.Event.addListener(markerList[i], 'click', getClickHandler(i));
+    naver.maps.Event.addListener(map, 'click', getClickMap(i));
 }
