@@ -19,6 +19,9 @@ ul {
   padding: 0;
   overflow: hidden;
   background: #333;
+  position: fixed;
+  width: 100%;
+  z-index: 1000;
 }
 
 li {
