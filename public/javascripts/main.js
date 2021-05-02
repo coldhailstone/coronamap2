@@ -7,18 +7,21 @@ const map = new naver.maps.Map('map', mapOptions);
 
 const data = [
     {
-        title: "용산역",
-        address: "용산",
+        title: '용산역',
+        address: '용산',
         lat: 37.530107579847304,
         lng: 126.96479313805436
     },
     {
-        title: "서울역",
-        address: "서울역",
+        title: '서울역',
+        address: '서울역',
         lat: 37.55324891278443,
         lng: 126.97260760696861
     }
 ];
+
+let markerList = [];
+let infowindowList = [];
 
 for (const i in data) {
     const target = data[i];
@@ -27,7 +30,24 @@ for (const i in data) {
         map,
         position: latlng,
         icon: {
-            content: `<div class='marker'></div>`
+            content: `<div class='marker'></div>`,
+            anchor: new naver.maps.Point(7.5, 7.5)
         }
     });
+
+    const content = `
+    <div class='infowindow_wrap'>
+        <div class='infowindow_title'>${target.title}</div>
+        <div class='infowindow_address'>${target.address}</div>
+    </div>`;
+
+    const infowindow = new naver.maps.InfoWindow({
+        content,
+        backgroundColor: '#00ff0000',
+        borderColor: '#00ff0000',
+        anchorSize: new naver.maps.Size(0, 0)
+    });
+
+    markerList.push(marker);
+    infowindowList.push(infowindow);
 }
