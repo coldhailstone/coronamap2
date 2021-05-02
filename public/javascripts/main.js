@@ -25,6 +25,9 @@ for (const i in data) {
     const latlng = new naver.maps.LatLng(target.lat, target.lng);
     const marker = new naver.maps.Marker({
         map,
-        position: latlng
+        position: latlng,
+        icon: {
+            content: `<div class='marker'></div>`
+        }
     });
 }
