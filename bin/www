@@ -7,6 +7,22 @@
 var app = require('../app');
 var debug = require('debug')('coronamap2:server');
 var http = require('http');
+const mongoose = require('mongoose');
+const userConfig = require('../config/userConfig.json');
+
+let db = mongoose.connection;
+db.on('error', console.error);
+db.once('open', () => {
+  console.log('Connected to mongo Server');
+});
+
+mongoose.connect(
+  `mongodb://admin:admin@coronamap2-shard-00-00.re5mq.mongodb.net:27017,coronamap2-shard-00-01.re5mq.mongodb.net:27017,
+  coronamap2-shard-00-02.re5mq.mongodb.net:27017/coronamap2?ssl=true&replicaSet=atlas-vzy1w0-shard-0&authSource=admin&retryWrites=true&w=majority`,
+  {useNewUrlParser: true, useUnifiedTopology: true}
+).catch(e => {
+  console.log(e);
+});
 
 /**
  * Get port from environment and store in Express.
