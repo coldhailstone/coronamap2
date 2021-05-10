@@ -1,6 +1,6 @@
-const { response } = require('express');
 var express = require('express');
 var router = express.Router();
+const locationModel = require('../model/location');
 
 /* GET home page. */
 router.get('/', (req, res, next) => {
@@ -21,9 +21,29 @@ router.get('/test', (req, res, next) => {
 router.post('/test2', (req, res, next) => {
   const {test, test2} = req.body;
   console.log(test, test2);
-  
+
   res.json({
     message: 'post 완료!'
+  });
+});
+
+router.post('/location', (req, res, next) => {
+  const { title, address, lat, lng } = req.body;
+  let location = new locationModel();
+  location.title = title;
+  location.address = address;
+  location.lat = lat;
+  location.lng = lng;
+  location.save().then(result => {
+    console.log(result);
+    res.json({
+      message: 'success'
+    });
+  }).catch(e => {
+    console.error(e);
+    res.json({
+      message: 'error'
+    });
   });
 });
 
