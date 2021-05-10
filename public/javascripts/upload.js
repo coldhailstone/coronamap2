@@ -32,6 +32,9 @@ let markerList = [];
 function displayPlaces(data) {
     const listEl = document.getElementById('placesList');
     const bounds = new daum.maps.LatLngBounds();
+
+    removeAllChildNodes(listEl);
+    removeMarker();
     
     for (let i = 0; i < data.length; i++) {
         let lat = data[i].y;
@@ -89,4 +92,17 @@ function displayInfowindow(marker, place_name, address_name, lat, lng) {
     map.panTo(marker.getPosition());
     infowindow.setContent(content);
     infowindow.open(map, marker);
+}
+
+function removeAllChildNodes(el) {
+    while (el.hasChildNodes()) {
+        el.removeChild(el.lastChild);
+    }
+}
+
+function removeMarker() {
+    for (let i = 0; i < markerList.length; i++) {
+        markerList[i].setMap(null);
+    }
+    markerList = [];
 }
