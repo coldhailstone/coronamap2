@@ -81,19 +81,6 @@ function displayPlaces(data) {
     map.setBounds(bounds);
 }
 
-function displayInfowindow(marker, place_name, address_name, lat, lng) {
-    const content = `
-        <div style='padding: 25px;'>
-            ${place_name}<br/>
-            ${address_name}<br/>
-            <button>등록</button>
-        </div>
-    `;
-    map.panTo(marker.getPosition());
-    infowindow.setContent(content);
-    infowindow.open(map, marker);
-}
-
 function removeAllChildNodes(el) {
     while (el.hasChildNodes()) {
         el.removeChild(el.lastChild);
@@ -105,4 +92,31 @@ function removeMarker() {
         markerList[i].setMap(null);
     }
     markerList = [];
+}
+
+function displayInfowindow(marker, title, address, lat, lng) {
+    const content = `
+        <div style='padding: 25px;'>
+            ${title}<br/>
+            ${address}<br/>
+            <button onClick='onSubmit("${title}", "${address}", ${lat}, ${lng});'>등록</button>
+        </div>
+    `;
+    map.panTo(marker.getPosition());
+    infowindow.setContent(content);
+    infowindow.open(map, marker);
+}
+
+function onSubmit(title, address, lat, lng) {
+    $.ajax({
+        url: '/location',
+        data: {title, address, lat, lng},
+        type: 'post'
+    }).done(res => {
+        console.log('데이터 요청 성공');
+        alert('성공');
+    }).fail(e => {
+        console.log('데이터 요청 실패');
+        alert('실패');
+    });
 }
