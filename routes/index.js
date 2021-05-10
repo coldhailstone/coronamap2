@@ -47,4 +47,21 @@ router.post('/location', (req, res, next) => {
   });
 });
 
+router.get('/location', (req, res, next) => {
+  locationModel
+    .find({}, {_id: 0, __v: 0})
+    .then(result => {
+      console.log(result);
+      res.json({
+        message: 'success',
+        data: result
+      });
+    })
+    .catch(e => {
+      res.json({
+        message: 'error'
+      });
+    });
+});
+
 module.exports = router;
