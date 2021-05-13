@@ -128,4 +128,29 @@ function startDataLayer() {
     regionGeoJson.forEach(geojson => {
         map.data.addGeoJson(geojson);
     });
+
+    map.data.addListener('click', e => {
+        let feature = e.feature;
+        feature.getProperty('focus') ? feature.setProperty('focus', false) : feature.setProperty('focus', true);
+    });
+
+    map.data.addListener('mouseover', e => {
+        let feature = e.feature;
+        let regionName = feature.getProperty('area1');
+        tooltip.css({
+            display: 'block',
+            left: e.offset.x,
+            top: e.offset.y
+        }).text(regionName);
+        map.data.overrideStyle(feature, {
+            fillOpacity: 0.6,
+            strokeWeight: 4,
+            strokeOpacity: 1
+        });
+    });
+
+    map.data.addListener('mouseout', e => {
+        tooltip.hide().empty();
+        map.data.revertStyle();
+    });
 }
